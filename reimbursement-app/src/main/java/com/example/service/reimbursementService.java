@@ -2,7 +2,7 @@ package com.example.service;
 
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,17 +33,25 @@ public class reimbursementService {
     }
 
 
-
-
-
     public List<reimbursement> getReimbursementsByUsername(String username) {
         User user = userRepository.findByUsername(username)
             .orElseThrow(() -> new RuntimeException("User not found")); // Or create a custom exception
     
-        Integer userId = user.getUserId();
+        Long userId = user.getUserId();
         List<reimbursement> reimbursements = reimbursementRepository.findByUser_UserId(userId);
     
         return reimbursements;  
+    }
+
+
+
+
+
+    public List<reimbursement> getAllReimbursements() {
+        // TODO Auto-generated method stub
+      List<reimbursement> reimbursements =reimbursementRepository.findAll();
+
+      return reimbursements;
     }
 
 

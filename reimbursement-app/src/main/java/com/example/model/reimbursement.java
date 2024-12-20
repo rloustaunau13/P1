@@ -16,8 +16,8 @@ public class reimbursement {
     @Column(nullable = false)
     private double amount;
 
-    @Column(nullable = false)
-    private String status;
+    @Column(columnDefinition = "varchar(255) default 'pending'")
+    private String status="pending";
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "userId", nullable = false)
