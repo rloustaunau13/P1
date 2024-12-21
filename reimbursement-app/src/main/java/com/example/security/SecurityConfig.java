@@ -39,6 +39,7 @@ public class SecurityConfig {
             .authorizeHttpRequests((authz) -> authz
                 .requestMatchers("/auth/login", "/auth/register").permitAll()
                 .requestMatchers("/auth/hello").authenticated()
+                .requestMatchers("/auth/reimbursement").authenticated()
                 .requestMatchers("/auth/reimbursements").authenticated()
                 .requestMatchers("/auth/reimbursements/{id}").authenticated()
             )

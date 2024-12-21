@@ -27,6 +27,10 @@ public class reimbursement {
         //TODO Auto-generated constructor stub
     }
 
+    public reimbursement (){
+        
+    }
+
     // Getters and setters
     public int getReimbId() {
         return reimbId;

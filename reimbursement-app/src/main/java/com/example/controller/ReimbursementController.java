@@ -36,6 +36,35 @@ public class ReimbursementController {
 
 
 
+      // Endpoint for user to  create a new reimbursement
+      @PostMapping("/reimbursements")
+      public ResponseEntity<reimbursement> createReimbursement(@RequestBody reimbursement reim,@RequestHeader("Authorization") String authorizationHeader) {
+          // Check if the userId field is null or not provided
+  
+        
+          String token =authorizationHeader.substring(7);
+          String userName = jwtService.extractUsername(token);
+  
+  
+            // Retrieve the user from the database based on userId
+            Optional<User> optionalUser = userRepository.findByUsername(userName);
+  
+  
+  
+          if (optionalUser.isPresent()) {
+              // Set the retrieved user to the reimbursement object
+              reim.setUser(optionalUser.get());
+  
+              // Proceed with creating the reimbursement
+              reimbursement createdReimbursement = reimbursementService.addReimbursement(reim);
+  
+              return new ResponseEntity<>(createdReimbursement, HttpStatus.CREATED);  // Return the created reimbursement with a 201 Created status
+          } else {
+              // If user is not found, return a 404 Not Found status
+              return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+          }
+      }
+
     
     @GetMapping
     public ResponseEntity<List<reimbursement>> getReimbursements() {
@@ -79,32 +108,5 @@ public class ReimbursementController {
     }
 
 
-    // Endpoint for user to  create a new reimbursement
-    @PostMapping
-    public ResponseEntity<reimbursement> createReimbursement(@RequestBody reimbursement reim,@RequestHeader("Authorization") String authorizationHeader) {
-        // Check if the userId field is null or not provided
-
-      
-        String token =authorizationHeader.substring(7);
-        String userName = jwtService.extractUsername(token);
-
-
-          // Retrieve the user from the database based on userId
-          Optional<User> optionalUser = userRepository.findByUsername(userName);
-
-
-
-        if (optionalUser.isPresent()) {
-            // Set the retrieved user to the reimbursement object
-            reim.setUser(optionalUser.get());
-
-            // Proceed with creating the reimbursement
-            reimbursement createdReimbursement = reimbursementService.addReimbursement(reim);
-
-            return new ResponseEntity<>(createdReimbursement, HttpStatus.CREATED);  // Return the created reimbursement with a 201 Created status
-        } else {
-            // If user is not found, return a 404 Not Found status
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+  
 }
