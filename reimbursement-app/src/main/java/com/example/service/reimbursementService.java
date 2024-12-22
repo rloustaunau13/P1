@@ -33,26 +33,35 @@ public class reimbursementService {
     }
 
 
-    public List<reimbursement> getReimbursementsByUsername(String username) {
-        User user = userRepository.findByUsername(username)
-            .orElseThrow(() -> new RuntimeException("User not found")); // Or create a custom exception
-    
-        Long userId = user.getUserId();
-        List<reimbursement> reimbursements = reimbursementRepository.findByUser_UserId(userId);
-    
-        return reimbursements;  
-    }
 
 
 
 
 
-    public List<reimbursement> getAllReimbursements() {
+    public List<reimbursement> getReimbursementsByUserId(Long userId) {
+        return reimbursementRepository.findByUser_UserId(userId);
+
+
+
+}
+
+
+
+
+
+
+
+    public List<reimbursement> getReimbursementsByStatus(Long userID,String status) {
         // TODO Auto-generated method stub
-      List<reimbursement> reimbursements =reimbursementRepository.findAll();
-
-      return reimbursements;
+       
+        return reimbursementRepository.findByUser_UserIdAndStatus(userID,status);
     }
+
+
+
+
+
+
 
 
 

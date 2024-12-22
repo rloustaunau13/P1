@@ -39,9 +39,7 @@ public class SecurityConfig {
             .authorizeHttpRequests((authz) -> authz
                 .requestMatchers("/auth/login", "/auth/register").permitAll()
                 .requestMatchers("/auth/hello").authenticated()
-                .requestMatchers("/auth/reimbursement").authenticated()
-                .requestMatchers("/auth/reimbursements").authenticated()
-                .requestMatchers("/auth/reimbursements/{id}").authenticated()
+                .requestMatchers("/auth/reimbursements/**").authenticated()
             )
             .httpBasic(withDefaults()).csrf((csrf) -> csrf.disable())
             .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

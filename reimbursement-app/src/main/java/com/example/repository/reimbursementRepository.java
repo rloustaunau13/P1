@@ -13,5 +13,8 @@ public interface reimbursementRepository extends JpaRepository<reimbursement, Lo
     List<reimbursement> findByUser_UserId(Long userId);  // Correct method name
 
     Optional<reimbursement> findByReimbId(Long reimbId);
+
+    List<reimbursement> findByUser_UserIdAndStatus(Long userId, String status);
+
 }
 

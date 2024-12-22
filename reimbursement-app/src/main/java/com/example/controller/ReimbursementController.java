@@ -14,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import com.example.service.JwtService;
 
@@ -66,32 +67,85 @@ public class ReimbursementController {
       }
 
     
-    @GetMapping
-    public ResponseEntity<List<reimbursement>> getReimbursements() {
+      //See all reimbursement tickets only their own
+      @GetMapping("/reimbursements")
+    public ResponseEntity<List<reimbursement>> getReimbursements(@RequestHeader("Authorization") String authorizationHeader) {
         // Get logged-in user's username
-        List<reimbursement> reimbursements = reimbursementService.getAllReimbursements();
+
+        String token =authorizationHeader.substring(7);
+        String userName = jwtService.extractUsername(token);
+
+       User user = userRepository.findByUsername(userName).get();
+
+       Long userID=user.getUserId();
+
+        List<reimbursement> reimbursements = reimbursementService.getReimbursementsByUserId(userID);
         return ResponseEntity.ok(reimbursements);
     }
 
 
+    //See all their pending reimbursements
+    @GetMapping("/reimbursements/pending")
+    public ResponseEntity<List<reimbursement>> getPendingReimbursements(@RequestHeader("Authorization") String authorizationHeader) {
+        // Get logged-in user's username
+
+        String token =authorizationHeader.substring(7);
+        String userName = jwtService.extractUsername(token);
+
+       User user = userRepository.findByUsername(userName).get();
+
+       Long userID=user.getUserId();
+
+       List<reimbursement> reimbursements = reimbursementService.getReimbursementsByStatus(userID, "PENDING");
+
+        return ResponseEntity.ok(reimbursements);
+    }
+
+        //See all their pending reimbursements
+        @GetMapping("/reimbursements/approved")
+        public ResponseEntity<List<reimbursement>> getCompletedReimbursements(@RequestHeader("Authorization") String authorizationHeader) {
+            // Get logged-in user's username
+    
+            String token =authorizationHeader.substring(7);
+            String userName = jwtService.extractUsername(token);
+    
+           User user = userRepository.findByUsername(userName).get();
+    
+           Long userID=user.getUserId();
+    
+           List<reimbursement> reimbursements = reimbursementService.getReimbursementsByStatus(userID, "APPROVED");
+    
+            return ResponseEntity.ok(reimbursements);
+        }
+
+    //See all their finished
+
 //Endpoint to update a reimbursement from pending to completed 
 
     @PutMapping("/reimbursements/{id}")
-    public ResponseEntity<reimbursement> updateReimbursementFinished(@PathVariable Long id,@RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<reimbursement> updateReimbursement(@PathVariable Long id,@RequestHeader("Authorization") String authorizationHeader,  @RequestBody Map<String, String> actionPayload) {
             
         String token =authorizationHeader.substring(7);
         String userName = jwtService.extractUsername(token);
 
-        System.out.print("USERNAME"+userName);
  // Retrieve the user from the database based on userId
  Optional<User> optionalUser = userRepository.findByUsername(userName);
 
     if(optionalUser.isPresent() && optionalUser.get().getRole().equals("manager")){
 
-    System.out.print("User is authenticated");
+    
     reimbursement reim = reimbursementRepository.getReferenceById(id);
 
-    reim.setStatus("completed");
+    // Extract the action (approve/deny) from the request body
+    String action = actionPayload.get("action");
+
+    if (action == null || (!action.equalsIgnoreCase("APPROVED") && !action.equalsIgnoreCase("DENIED"))) {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // Invalid action
+    }
+
+
+
+    reim.setStatus(action.toUpperCase());
 
     reimbursement updatedReimbursement = reimbursementService.addReimbursement(reim);
 
@@ -100,7 +154,7 @@ public class ReimbursementController {
  else
  {
             // If user is not manager , return a 401 Not authenticated
-            System.out.print("User is authenticated");
+         
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 }
 
