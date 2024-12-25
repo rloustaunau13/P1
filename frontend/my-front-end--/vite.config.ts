@@ -1,7 +1,18 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
-})
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // Inject Bootstrap's SCSS variables and mixins
+        additionalData: `
+          @import 'bootstrap/scss/functions';
+          @import 'bootstrap/scss/variables';
+          @import 'bootstrap/scss/mixins';
+          @import 'bootstrap/scss/bootstrap';
+
+        `,
+      },
+    },
+  },
+});

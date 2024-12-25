@@ -2,8 +2,10 @@ import { Component } from "react";
 import { Navigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
+import { Link } from 'react-router-dom';
 import AuthService from "../services/auth.service";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from 'react';
 
 type Props = {};
 
@@ -16,10 +18,11 @@ type State = {
 };
 
 export default class Login extends Component<Props, State> {
+    
   constructor(props: Props) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
-
+   
     this.state = {
       redirect: null,
       username: "",
@@ -64,7 +67,11 @@ export default class Login extends Component<Props, State> {
         });
       },
       error => {
-        console.log(error);
+      this.setState({
+       loading:false,
+       message:'Invalid username or password'
+      })
+       
       }
     );
   }
@@ -82,7 +89,9 @@ export default class Login extends Component<Props, State> {
     };
 
     return (
+        
         <div className="col-md-12">
+            
         <div className="card card-container">
           <img
             src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
@@ -127,14 +136,20 @@ export default class Login extends Component<Props, State> {
 
               {message && (
                 <div className="form-group">
-                  <div className="alert alert-danger" role="alert">
+                  <div className="alert alert-danger" role="alert" style={{ color: 'red' }}>
                     {message}
                   </div>
                 </div>
               )}
             </Form>
+       
           </Formik>
+          
         </div>
+        <p>
+            
+        Don't have an account? <Link to="/register">Sign up here</Link>
+      </p>
         </div>
     );
   }

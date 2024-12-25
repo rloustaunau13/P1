@@ -1,0 +1,8 @@
+// custom.scss
+
+// Import Bootstrap's functions and variables
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+
+// Import the sidebar menu styles
+@import 'node_modules/react-bootstrap-sidebar-menu/dist/sidebar-menu.scss';

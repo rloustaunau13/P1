@@ -1,4 +1,12 @@
+
 {
+  "compilerOptions": {
+    "baseUrl": "src", // Sets the base directory for resolving non-relative module names
+    "paths": {
+      "@components/*": ["src/components/*"], // Alias '@components' to 'src/components'
+      "@utils/*": ["src/utils/*"] // Alias '@utils' to 'src/utils'
+    }
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
