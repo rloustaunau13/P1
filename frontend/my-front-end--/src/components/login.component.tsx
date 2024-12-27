@@ -6,29 +6,29 @@ import { Link } from 'react-router-dom';
 import AuthService from "../services/auth.service";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react';
+import {jwtDecode} from "jwt-decode";
 
 type Props = {};
 
 type State = {
-  redirect: string | null,
-  username: string,
-  password: string,
-  loading: boolean,
-  message: string
+  redirect: string | null;
+  username: string;
+  password: string;
+  loading: boolean;
+  message: string;
 };
 
 export default class Login extends Component<Props, State> {
-    
   constructor(props: Props) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
-   
+
     this.state = {
       redirect: null,
       username: "",
       password: "",
       loading: false,
-      message: ""
+      message: "",
     };
   }
 
@@ -37,7 +37,7 @@ export default class Login extends Component<Props, State> {
 
     if (currentUser) {
       this.setState({ redirect: "/profile" });
-    };
+    }
   }
 
   componentWillUnmount() {
@@ -56,32 +56,47 @@ export default class Login extends Component<Props, State> {
 
     this.setState({
       message: "",
-      loading: true
+      loading: true,
     });
 
-
     AuthService.login(username, password).then(
-      () => {
-        this.setState({
-          redirect: "/profile"
-        });
+      (response) => {
+        const token = response; // Assuming response is the JWT token
+        
+        // Store token in localStorage
+        localStorage.setItem("token", token);
+
+        // Decode the JWT to get the role
+        const decodedToken: any = jwtDecode(token);
+        const userRole = decodedToken.role;// Get the role from the token
+        console.log(userRole);
+        alert(decodedToken)
+        // Check the role and set the appropriate redirect
+        if (userRole === "manager") {
+          this.setState({
+            redirect: "/admin", // Redirect to the admin page if the user is a manager
+          });
+        } else {
+          this.setState({
+            redirect: "/profile", // Redirect to profile or other page for non-manager
+          });
+        }
       },
-      error => {
-      this.setState({
-       loading:false,
-       message:'Invalid username or password'
-      })
-       
+      (error) => {
+        this.setState({
+          loading: false,
+          message: "Invalid username or password",
+        });
       }
     );
   }
 
   render() {
-    const {loading,message}=this.state;
-    if (this.state.redirect) {
-      return <Navigate to={this.state.redirect} />
-    }
+    const { loading, message } = this.state;
 
+    if (this.state.redirect) {
+      return <Navigate to={this.state.redirect} />;
+    }
 
     const initialValues = {
       username: "",
@@ -89,9 +104,7 @@ export default class Login extends Component<Props, State> {
     };
 
     return (
-        
-        <div className="col-md-12">
-            
+      <div className="col-md-12">
         <div className="card card-container">
           <img
             src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
@@ -127,30 +140,25 @@ export default class Login extends Component<Props, State> {
 
               <div className="form-group">
                 <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
-                  {loading && (
-                    <span className="spinner-border spinner-border-sm"></span>
-                  )}
+                  {loading && <span className="spinner-border spinner-border-sm"></span>}
                   <span>Login</span>
                 </button>
               </div>
 
               {message && (
                 <div className="form-group">
-                  <div className="alert alert-danger" role="alert" style={{ color: 'red' }}>
+                  <div className="alert alert-danger" role="alert" style={{ color: "red" }}>
                     {message}
                   </div>
                 </div>
               )}
             </Form>
-       
           </Formik>
-          
         </div>
         <p>
-            
-        Don't have an account? <Link to="/register">Sign up here</Link>
-      </p>
-        </div>
+          Don't have an account? <Link to="/register">Sign up here</Link>
+        </p>
+      </div>
     );
   }
 }

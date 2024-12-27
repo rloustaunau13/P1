@@ -59,8 +59,14 @@ public class UserController {
     @PostMapping("/login") 
     public ResponseEntity<String> authenticateAndGetToken(@RequestBody AuthRequest authRequest) { 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())); 
+
+        String role="";
+        Optional<User> userOptional= userRepository.findByUsername(authRequest.getUsername());
+        if(userOptional.isPresent()){
+        role=userOptional.get().getRole();
+        }
         if (authentication.isAuthenticated()) { 
-            String token = jwtService.generateToken(authRequest.getUsername());
+            String token = jwtService.generateToken(authRequest.getUsername(),role);
             return ResponseEntity.ok(token); 
         } else { 
             throw new UsernameNotFoundException("Invalid user request!"); 

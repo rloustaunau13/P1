@@ -5,6 +5,12 @@
   text-align: center;
 }
 
+
+.button {
+  color:red;
+  background-color: rgb(36, 17, 122);
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
