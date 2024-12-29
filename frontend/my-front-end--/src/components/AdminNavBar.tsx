@@ -56,6 +56,19 @@ export const AdminNavBar: React.FC = () => {
                 Approve Reimbursement
               </Link>
             </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/delete-user">
+                Delete User
+              </Link>
+            </li>
+
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/users">
+                See All Users
+              </Link>
+            </li>
             {/* <li className="nav-item">
               <Link className="nav-link" to="/approvedReimbursements">
                 See Approved Reimbursements

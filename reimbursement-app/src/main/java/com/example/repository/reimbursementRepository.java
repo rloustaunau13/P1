@@ -16,5 +16,7 @@ public interface reimbursementRepository extends JpaRepository<reimbursement, Lo
 
     List<reimbursement> findByUser_UserIdAndStatus(Long userId, String status);
 
+    void deleteByUser_UserId(Long userId);
+
 }
 

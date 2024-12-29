@@ -3,6 +3,7 @@ package com.example.service;
 
 import com.example.model.User;
 import com.example.repository.UserRepository;
+import com.example.repository.reimbursementRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 
@@ -22,6 +24,10 @@ public class UserService  implements UserDetailsService{
 
     @Autowired
     private UserRepository repository;
+
+
+    @Autowired
+    private reimbursementRepository reimbursementrepository;
 
     private final PasswordEncoder encoder;
 
@@ -49,6 +55,24 @@ public class UserService  implements UserDetailsService{
         return "User Added Successfully"; 
        } 
     
+
+
+       @Transactional
+       public String deleteUserAndReimbursements(Long userId) {
+
+        if(repository.existsById(userId)){
+
+        
+        reimbursementrepository.deleteByUser_UserId(userId);
+        repository.deleteById(userId);
+        }
+        else{
+                throw new RuntimeException("User not found with ID: " + userId);   
+            }
+        
+
+        return "User deleted succesfully";
+    }
 
 
 

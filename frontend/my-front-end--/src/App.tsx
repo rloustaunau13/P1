@@ -11,6 +11,8 @@ import { NewReimbursement } from './components/NewReimbursement';
 import { CreateReimbursementAdmin } from './components/CreateReimbursementAdmin';
 import ApprovedReimbursements from './components/ApprovedReimbursements';
 import AllReimbursementsUser from './components/AllReimbursementsUser';
+import GetAllUsers from './components/GetAllUsers';
+import {DeleteAUser} from './components/DeleteAUser';
 
 
 function App() {
@@ -28,6 +30,8 @@ function App() {
         <Route path="/approvedReimbursements" element= {<ApprovedReimbursements/>} />
         <Route path="/create-reimbursementAdmin" element= {<CreateReimbursementAdmin/>} />
         <Route path="/all-reimbursements-user" element= {<AllReimbursementsUser/>} />
+        <Route path="/users" element= {<GetAllUsers/>} />
+        <Route path="/delete-user" element= {<DeleteAUser/>} />
       </Routes>
   );
 }

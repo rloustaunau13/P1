@@ -103,5 +103,30 @@ public class UserController {
 
         
     }
+
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id,@RequestHeader("Authorization") String authorizationHeader) {
+            
+        String token =authorizationHeader.substring(7);
+        String userName = jwtService.extractUsername(token);
+
+ // Retrieve the user from the database based on userId
+ Optional<User> optionalUser = userRepository.findByUsername(userName);
+
+    if(optionalUser.isPresent() && optionalUser.get().getRole().equals("manager")){
+
+    
+    String response=service.deleteUserAndReimbursements(id);
+
+    return ResponseEntity.status(HttpStatus.OK).body(response); 
+    }
+ else
+ {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+}
+
+        
+    }
   
 }
