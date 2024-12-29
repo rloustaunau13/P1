@@ -2,20 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { AdminNavBar } from './AdminNavBar';
 
 interface Reimbursement {
-  reimb_id: number;
+  reimbId: number;
   amount: number;
   description: string;
   status: string;
+  user: User; // Nested user object
 }
+interface User {
+    userId: number;
+    firstName: string;
+    lastName: string;
+    username: string;
+    password: string;
+    role: string;
+  }
 
 interface JwtPayload {
   userId: string; // Ensure this matches the structure of your JWT payload
   [key: string]: any; // For other fields in the payload
 }
 
-const PendingReimbursements: React.FC = () => {
+const AprovedReimbursements: React.FC = () => {
     const navigate = useNavigate();
   const [userId, setUserId] = useState<string>('');
   const [reimbursements, setReimbursements] = useState<Reimbursement[]>([]);
@@ -55,11 +65,10 @@ const PendingReimbursements: React.FC = () => {
     }
 
     try {
-      const response = await axios.get(`http://localhost:8080/auth/reimbursements/pending`, {
+      const response = await axios.get(`http://localhost:8080/auth/reimbursements/Allapproved`, {
         headers: {
           Authorization: `Bearer ${token}`, // Pass token as a Bearer Token
-        },
-        params: { userId },
+        }
       });
       console.log(response);
       setReimbursements(response.data);
@@ -89,8 +98,10 @@ const PendingReimbursements: React.FC = () => {
   }, [userId]);
 
   return (
+    <>
+    <AdminNavBar/>
     <div className="container">
-      <h1> Pending Reimbursements</h1>
+      <h1>Reimbursements</h1>
       <>UserID: </>
        {userId}
 
@@ -105,7 +116,9 @@ const PendingReimbursements: React.FC = () => {
         <table className="table">
           <thead>
             <tr>
-           
+              
+              <th> Reimbursement Id</th>
+              <th>User Name</th>
               <th>Amount</th>
               <th>Description</th>
               <th>Status</th>
@@ -113,8 +126,9 @@ const PendingReimbursements: React.FC = () => {
           </thead>
           <tbody>
             {reimbursements.map((reimbursement) => (
-              <tr key={reimbursement.reimb_id}>
-                
+              <tr key={reimbursement.reimbId}>
+                <td>{reimbursement.reimbId}</td>
+                <td>{reimbursement.user.username}</td>
                 <td>{reimbursement.amount}</td>
                 <td>{reimbursement.description}</td>
                 <td>{reimbursement.status}</td>
@@ -125,7 +139,8 @@ const PendingReimbursements: React.FC = () => {
         </table>
       )}
     </div>
+    </>
   );
 };
 
-export default PendingReimbursements;
+export default AprovedReimbursements;

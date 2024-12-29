@@ -1,6 +1,8 @@
 // src/main/java/com/yourpackage/controller/UserController.java
 package com.example.controller;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.service.UserInfoDetails;
 import com.example.model.AuthRequest;
 import com.example.model.User;
+import com.example.model.reimbursement;
 import com.example.repository.UserRepository;
 import com.example.service.JwtService;
 import com.example.service.UserService;
@@ -74,9 +77,31 @@ public class UserController {
     }
     
     
-    @GetMapping("/hello")
-    public String hello() {
-        return "Hello World!";
+    @GetMapping("/users") 
+    public ResponseEntity<List<User>> updateReimbursement(@RequestHeader("Authorization") String authorizationHeader) {
+            
+        String token =authorizationHeader.substring(7);
+        String userName = jwtService.extractUsername(token);
+
+ // Retrieve the user from the database based on userId
+ Optional<User> optionalUser = userRepository.findByUsername(userName);
+
+    if(optionalUser.isPresent() && optionalUser.get().getRole().equals("manager")){
+
+    
+        List<User> users=service.getAllUsers();
+    
+
+    return new ResponseEntity<>(users, HttpStatus.OK);  // Return the updated reimbursement with a 200 OK
+    }
+    else
+    {
+    // If user is not manager , return a 401 Not authenticated
+         
+    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+        
     }
   
 }

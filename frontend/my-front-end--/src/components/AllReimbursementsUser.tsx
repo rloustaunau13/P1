@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Navbar } from './NavBar';
 
 interface Reimbursement {
   reimb_id: number;
@@ -15,7 +16,7 @@ interface JwtPayload {
   [key: string]: any; // For other fields in the payload
 }
 
-const PendingReimbursements: React.FC = () => {
+const AllReimbursementsUser: React.FC = () => {
     const navigate = useNavigate();
   const [userId, setUserId] = useState<string>('');
   const [reimbursements, setReimbursements] = useState<Reimbursement[]>([]);
@@ -55,7 +56,7 @@ const PendingReimbursements: React.FC = () => {
     }
 
     try {
-      const response = await axios.get(`http://localhost:8080/auth/reimbursements/pending`, {
+      const response = await axios.get(`http://localhost:8080/auth/reimbursements`, {
         headers: {
           Authorization: `Bearer ${token}`, // Pass token as a Bearer Token
         },
@@ -89,8 +90,12 @@ const PendingReimbursements: React.FC = () => {
   }, [userId]);
 
   return (
+
+
+    <>
+    <Navbar/>
     <div className="container">
-      <h1> Pending Reimbursements</h1>
+      <h1> All Reimbursements</h1>
       <>UserID: </>
        {userId}
 
@@ -98,7 +103,7 @@ const PendingReimbursements: React.FC = () => {
       {error && <p className="text-danger">{error}</p>}
 
       {!loading && reimbursements.length === 0 && userId && !error && (
-        <p>No pending reimbursements found.</p>
+        <p>No reimbursements found.</p>
       )}
 
       {reimbursements.length > 0 && (
@@ -125,7 +130,8 @@ const PendingReimbursements: React.FC = () => {
         </table>
       )}
     </div>
+    </>
   );
 };
 
-export default PendingReimbursements;
+export default AllReimbursementsUser;

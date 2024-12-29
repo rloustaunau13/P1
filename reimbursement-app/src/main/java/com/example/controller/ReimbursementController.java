@@ -66,7 +66,8 @@ public class ReimbursementController {
           }
       }
 
-    
+
+ 
       //See all reimbursement tickets only their own
       @GetMapping("/reimbursements")
     public ResponseEntity<List<reimbursement>> getReimbursements(@RequestHeader("Authorization") String authorizationHeader) {
@@ -82,6 +83,22 @@ public class ReimbursementController {
         List<reimbursement> reimbursements = reimbursementService.getReimbursementsByUserId(userID);
         return ResponseEntity.ok(reimbursements);
     }
+
+
+             //GET all reimbursement tickets only their own
+             @GetMapping("/reimbursements/all")
+             public ResponseEntity<List<reimbursement>> getAllReimbursements(@RequestHeader("Authorization") String authorizationHeader) {
+                 // Get logged-in user's username
+         
+           
+         
+                 List<reimbursement> reimbursements = reimbursementService.getAll();
+                 return ResponseEntity.ok(reimbursements);
+             }
+   
+
+
+
 
 
     //See all their pending reimbursements

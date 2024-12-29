@@ -85,7 +85,7 @@ export default class Register extends Component<Props, State> {
         localStorage.setItem("token", token);      // Save token in localStorage
         console.log(token);
         this.setState({
-          redirect: "/login",
+          redirect: "/",
           message: response.data.message,
           successful: true,
           token, // Save the token in the state (optional)

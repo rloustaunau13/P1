@@ -3,8 +3,9 @@ import { Field, Form, Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { Navbar } from './NavBar';
+import { AdminNavBar } from './AdminNavBar';
 
-export const NewReimbursement: React.FC = () => {
+export const CreateReimbursementAdmin: React.FC = () => {
   const initialValues = {
     amount: '',
     description: '',
@@ -49,7 +50,7 @@ export const NewReimbursement: React.FC = () => {
   return (
     <>
     
-     <Navbar/>
+     <AdminNavBar/>
     <div className="col-md-6 mx-auto">
       <h3>Enter New Reimbursement</h3>
       <Formik

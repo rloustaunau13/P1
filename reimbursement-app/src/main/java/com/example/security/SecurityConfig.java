@@ -48,7 +48,7 @@ public class SecurityConfig {
             .cors(withDefaults()) // Enable CORS
             .authorizeHttpRequests((authz) -> authz
                 .requestMatchers("/auth/login", "/auth/register").permitAll()
-                .requestMatchers("/auth/hello").authenticated()
+                .requestMatchers("/auth/users/**").authenticated()
                 .requestMatchers("/auth/reimbursements/**").authenticated()
             )
             .httpBasic(withDefaults())

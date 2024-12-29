@@ -20,7 +20,7 @@ export default class Profile extends Component {
          
             <div className="d-flex">
        
-            <NewReimbursement/>
+          
             <div/>
             
             <PendingReimbursements />

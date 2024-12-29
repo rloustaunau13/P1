@@ -5,6 +5,12 @@ import Login from './components/login.component'
 import Register from './components/register.component';
 import Profile from './components/profile.component';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Admin from './components/Admin.component';
+import { ApproveReimbursement } from './components/ApproveReimbursement';
+import { NewReimbursement } from './components/NewReimbursement';
+import { CreateReimbursementAdmin } from './components/CreateReimbursementAdmin';
+import ApprovedReimbursements from './components/ApprovedReimbursements';
+import AllReimbursementsUser from './components/AllReimbursementsUser';
 
 
 function App() {
@@ -16,6 +22,12 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element= {<Profile />} />
+        <Route path="/admin" element= {<Admin/>} />
+        <Route path="/new-reimbursement" element= {<NewReimbursement/>} />
+        <Route path="/approve-reimbursement" element= {<ApproveReimbursement/>} />
+        <Route path="/approvedReimbursements" element= {<ApprovedReimbursements/>} />
+        <Route path="/create-reimbursementAdmin" element= {<CreateReimbursementAdmin/>} />
+        <Route path="/all-reimbursements-user" element= {<AllReimbursementsUser/>} />
       </Routes>
   );
 }

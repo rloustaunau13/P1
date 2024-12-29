@@ -8,7 +8,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import {  useNavigate } from 'react-router-dom';
 
 
-export const Navbar: React.FC = () => {
+export const AdminNavBar: React.FC = () => {
 
 
     const navigate = useNavigate();
@@ -46,21 +46,26 @@ export const Navbar: React.FC = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/profile">
-                Pending Reimbursements
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/new-reimbursement">
-                New Reimbursement
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/all-reimbursements-user">
-               All Reimbursements
+              <Link className="nav-link" to="/admin">
+                Home
               </Link>
             </li>
 
+            <li className="nav-item">
+              <Link className="nav-link" to="/approve-reimbursement">
+                Approve Reimbursement
+              </Link>
+            </li>
+            {/* <li className="nav-item">
+              <Link className="nav-link" to="/approvedReimbursements">
+                See Approved Reimbursements
+              </Link>
+            </li> */}
+            <li className="nav-item">
+              <Link className="nav-link" to="/create-reimbursementAdmin">
+                Create Reimbursement Admin
+              </Link>
+            </li>
             <li className="nav-item">
               <Link className="nav-link" to="/" onClick={handleLogout}>
                 Logout

@@ -52,9 +52,18 @@ public class reimbursementService {
 
 
     public List<reimbursement> getReimbursementsByStatus(Long userID,String status) {
-        // TODO Auto-generated method stub
        
         return reimbursementRepository.findByUser_UserIdAndStatus(userID,status);
+    }
+
+
+
+
+
+
+
+    public List<reimbursement> getAll() {
+      return reimbursementRepository.findAll();
     }
 
 
