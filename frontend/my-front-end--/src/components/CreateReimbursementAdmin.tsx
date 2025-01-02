@@ -52,7 +52,7 @@ export const CreateReimbursementAdmin: React.FC = () => {
     
      <AdminNavBar/>
     <div className="col-md-6 mx-auto">
-      <h3>Enter New Reimbursement</h3>
+    <legend className="text-center">Create Reimbursement </legend>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

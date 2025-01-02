@@ -20,8 +20,6 @@ public class reimbursementService {
     @Autowired
     private reimbursementRepository reimbursementRepository;
 
-    @Autowired
-    private UserRepository userRepository;
 
 
 

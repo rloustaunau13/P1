@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -8,6 +8,13 @@ export const DeleteAUser: React.FC = () => {
   const initialValues = {
     Id: ''
   };
+  const [message, setMessage] = useState<string | null>(null);
+  const [successful, setSuccessful] = useState<boolean>(false);
+
+  type State = {
+    successful: boolean;
+    message: string;
+  }
 
   const validationSchema = Yup.object({
     Id: Yup.number()
@@ -32,12 +39,15 @@ export const DeleteAUser: React.FC = () => {
         }
       );
 
+    setMessage("User deleted successfully.")
+    setSuccessful(true);
       console.log('User deleted successfully:', response.data);
 
       formikHelpers.resetForm();
-    window.location.reload()
     } catch (error) {
       console.error('Error deleting user:', error);
+      setMessage('failed to delete USer');
+      setSuccessful(false);
     }
   };
 
@@ -46,7 +56,7 @@ export const DeleteAUser: React.FC = () => {
     
      <AdminNavBar/>
     <div className="col-md-6 mx-auto">
-      <h3>Enter User Id</h3>
+
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -54,6 +64,7 @@ export const DeleteAUser: React.FC = () => {
       >
         {({ errors, touched }) => (
           <Form>
+            <legend className="text-center">Delete User</legend>
             <div className="form-group">
               <label htmlFor="Id">Id</label>
               <Field
@@ -71,6 +82,16 @@ export const DeleteAUser: React.FC = () => {
             <button type="submit" className="btn btn-primary mt-3">
               Submit
             </button>
+
+
+            
+            {message && (
+                <div className="form-group mt-3">
+                  <div className={successful ? "alert alert-success" : "alert alert-danger"} role="alert">
+                    {message}
+                  </div>
+                </div>
+              )}
           </Form>
         )}
       </Formik>

@@ -51,7 +51,7 @@ export const NewReimbursement: React.FC = () => {
     
      <Navbar/>
     <div className="col-md-6 mx-auto">
-      <h3>Enter New Reimbursement</h3>
+      <caption>Enter New Reimbursement</caption>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

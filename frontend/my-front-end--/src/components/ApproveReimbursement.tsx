@@ -56,7 +56,7 @@ export const ApproveReimbursement: React.FC = () => {
     <AdminNavBar/>
   
     <div className="col-md-6 mx-auto">
-      <h3>Approve Reimbursement</h3>
+  
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -64,6 +64,7 @@ export const ApproveReimbursement: React.FC = () => {
       >
         {({ errors, touched }) => (
           <Form>
+        <legend className="text-center">Approve Reimbursement</legend>
             <div className="form-group">
               <label htmlFor="id">Reimbursement id</label>
               <Field

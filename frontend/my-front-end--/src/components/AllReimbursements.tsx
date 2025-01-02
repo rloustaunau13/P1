@@ -64,7 +64,7 @@ const AllReimbursements: React.FC = () => {
     }
 
     try {
-      const response = await axios.get(`http://localhost:8080/auth/reimbursements/all`, {
+      const response = await axios.get(`http://localhost:8080/auth/reimbursements/pending`, {
         headers: {
           Authorization: `Bearer ${token}`, // Pass token as a Bearer Token
         }
@@ -99,10 +99,8 @@ const AllReimbursements: React.FC = () => {
   return (
     
     <div className="container">
-      <h1>Reimbursements</h1>
-      <>UserID: </>
-       {userId}
-
+    <caption className="table-caption">List of Reimbursements</caption>
+     
       {loading && <p>Loading...</p>}
       {error && <p className="text-danger">{error}</p>}
 

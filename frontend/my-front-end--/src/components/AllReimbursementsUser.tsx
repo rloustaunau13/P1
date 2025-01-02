@@ -94,11 +94,10 @@ const AllReimbursementsUser: React.FC = () => {
 
     <>
     <Navbar/>
+    <caption className="table-caption">List of Reimbursements</caption>
     <div className="container">
-      <h1> All Reimbursements</h1>
-      <>UserID: </>
-       {userId}
-
+    
+  
       {loading && <p>Loading...</p>}
       {error && <p className="text-danger">{error}</p>}
 

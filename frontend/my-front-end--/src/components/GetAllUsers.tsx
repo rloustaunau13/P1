@@ -96,9 +96,7 @@ const GetAllUsers: React.FC = () => {
     <>
     <AdminNavBar/>
     <div className="container">
-      <h1> Users</h1>
-  
-
+      <caption>Users</caption>
       {loading && <p>Loading...</p>}
       {error && <p className="text-danger">{error}</p>}
 

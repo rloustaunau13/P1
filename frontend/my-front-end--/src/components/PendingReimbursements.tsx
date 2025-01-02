@@ -90,10 +90,7 @@ const PendingReimbursements: React.FC = () => {
 
   return (
     <div className="container">
-      <h1> Pending Reimbursements</h1>
-      <>UserID: </>
-       {userId}
-
+      <caption >Pending Reimbursements</caption>
       {loading && <p>Loading...</p>}
       {error && <p className="text-danger">{error}</p>}
 
